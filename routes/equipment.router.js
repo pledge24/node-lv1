@@ -110,7 +110,7 @@ router.delete('/equipment/:character_id', async (req, res) => {
   const searchCharacterId_character = await Characters.findOne({
     character_id: character_id,
   }).exec();
-  if (!searchCharacterId_equipment) {
+  if (!searchCharacterId_character) {
     return res
       .status(400)
       .json({ errorMessage: '존재하지 않는 캐릭터 입니다.' });

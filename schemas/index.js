@@ -1,10 +1,13 @@
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+
+dotenv.config();
 
 const connect = () => {
   mongoose
     .connect(
       // 빨간색으로 표시된 부분은 대여한 ID, Password, 주소에 맞게끔 수정해주세요!
-      'mongodb+srv://zmwpssk:bk981231..@express-mongo.u0ywd72.mongodb.net/?retryWrites=true&w=majority&appName=express-mongo',
+      process.env.DB_URL,
       {
         dbName: 'node_lv1', // node_lv1 데이터베이스명을 사용합니다.
       }

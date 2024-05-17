@@ -55,7 +55,7 @@ router.post('/equipment/:character_id', async (req, res) => {
   // 수정된 '캐릭터', '아이템 장착 여부' 정보를 DB에 저장합니다.
   await searchCharacterId_character.save();
   await searchCharacterId_equipment.save();
-  
+
   // 장착 성공 시, 수정된 '아이템 장착 여부'정보를 클라이언트에게 전달합니다.
   return res.status(201).json({ searchCharacterId_equipment });
 });
@@ -156,7 +156,7 @@ router.delete('/equipment/:character_id', async (req, res) => {
   await searchCharacterId_character.save();
 
   // 탈착 성공 시, 수정된 '아이템 장착 여부'정보를 클라이언트에게 전달합니다.
-  return res.status(201).json({searchCharacterId_equipment });
+  return res.status(201).json({ searchCharacterId_equipment });
 });
 
 export default router;

@@ -40,13 +40,11 @@ router.post('/characters', async (req, res) => {
   return res.status(201).json({ character });
 });
 
-
-
 /** 캐릭터 전체 조회(GET Method) API */
 router.get('/characters', async (req, res) => {
   // Characters 모델을 사용해, MongoDB에서 'character_id'값이 가장 높은'캐릭터'를 찾습니다.
   const characters = await Characters.find().sort('-character_id').exec();
-  
+
   // 보이고자 하는 데이터만 filterdCharacters에 저장합니다.
   const filterdCharacters = characters.map(
     ({ character_id, name, health, power }) => ({
@@ -60,8 +58,6 @@ router.get('/characters', async (req, res) => {
   // 찾은'캐릭터'들을 클라이언트에 전달합니다.
   return res.status(200).json(filterdCharacters);
 });
-
-
 
 /** 캐릭터 상세 조회(GET Method) API */
 router.get('/characters/:character_id', async (req, res) => {
@@ -90,14 +86,12 @@ router.get('/characters/:character_id', async (req, res) => {
   return res.status(200).json(filterdCharacter);
 });
 
-
-
 /** 캐릭터 삭제(DELETE Method) API */
 router.delete('/characters/:characterId', async (req, res) => {
   // 삭제할 '캐릭터'의 ID 값을 가져옵니다.
   const { characterId } = req.params;
 
-  // 삭제하려는 '캐릭터'를 가져옵니다. 
+  // 삭제하려는 '캐릭터'를 가져옵니다.
   // 만약, 해당 ID값을 가진 '캐릭터'가 없다면, 없다는 사실을 클라이언트에게 전달합니다.
   const character = await Characters.findOne({
     character_id: characterId,
@@ -124,7 +118,7 @@ router.patch('/characters/:characterId', async (req, res) => {
   // 클라이언트에게 전달받은 name, health, power 데이터를 변수에 저장합니다.
   const { name, health, power } = req.body;
 
-  // 수정하려는 '캐릭터'를 가져옵니다. 
+  // 수정하려는 '캐릭터'를 가져옵니다.
   // 만약, 해당 ID값을 가진 '캐릭터'가 없다면, 없다는 사실을 클라이언트에게 전달합니다.
   const currentCharacter = await Characters.findOne({
     character_id: characterId,

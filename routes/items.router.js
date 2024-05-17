@@ -48,7 +48,7 @@ router.get('/items/:itemsCode', async (req, res) => {
   // 조회할 '아이템'의 ID 값을 가져옵니다.
   const { itemsCode } = req.params;
 
-  // 조회하려는 '아이템'을 가져옵니다. 
+  // 조회하려는 '아이템'을 가져옵니다.
   // 만약, 해당 ID값을 가진 '아이템'이 없다면, 없다는 사실을 클라이언트에게 전달합니다.
   const searchItem = await Items.findOne({ item_code: itemsCode }).exec();
   if (!searchItem) {
@@ -85,22 +85,33 @@ router.patch('/items/:itemsCode', async (req, res) => {
   }
 
   // 해당 아이템을 가지고 있던 캐릭터의 ID들을 Equipments모델에서 가져옵니다.
-  const itemOwners = await Equipments.find({ equipment_list: itemsCode }, 'character_id').exec();
+  const itemOwners = await Equipments.find(
+    { equipment_list: itemsCode },
+    'character_id'
+  ).exec();
   //console.log(itemOwners);
 
   // 해당 아이템을 가지고 있던 캐릭터의 스텟을 맞게 수정합니다.
-  for(let Owner of itemOwners){
-    const owner_character = await Characters.findOne({character_id : Owner.character_id}).exec();
+  for (let Owner of itemOwners) {
+    const owner_character = await Characters.findOne({
+      character_id: Owner.character_id,
+    }).exec();
     //console.log(owner_character);
 
     // 캐릭터의 스텟을 수정합니다.
-    owner_character.health = (owner_character.health || 0) - (currentItem.item_stat.health || 0) + (item_stat.health || 0);
-    owner_character.power = (owner_character.power || 0) - (currentItem.item_stat.power || 0) + (item_stat.power || 0);
+    owner_character.health =
+      (owner_character.health || 0) -
+      (currentItem.item_stat.health || 0) +
+      (item_stat.health || 0);
+    owner_character.power =
+      (owner_character.power || 0) -
+      (currentItem.item_stat.power || 0) +
+      (item_stat.power || 0);
 
     // 변경된 스텟을 DB에 저장합니다.
     owner_character.save();
   }
- 
+
   // 아이템 정보를 수정합니다.
   currentItem.item_name = item_name;
   currentItem.item_stat = item_stat;
